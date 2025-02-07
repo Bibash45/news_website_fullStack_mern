@@ -26,3 +26,4 @@ yarn-error.log*
 
 /uploads
 server/uploads/videos/*.mp4
+client/public/videos/FirstSection/*.mp4
