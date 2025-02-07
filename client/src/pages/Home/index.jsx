@@ -18,8 +18,8 @@ const Home = () => {
     <div>
       <Header />
       <FirstSection />
-      <SecondSection />
       <ThirdSection />
+      <SecondSection />
       <FourthSection />
       <FifthSection />
       <SixthSection />

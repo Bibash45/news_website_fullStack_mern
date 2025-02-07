@@ -109,7 +109,7 @@ const ThirdSection = () => {
   ];
   return (
     <>
-      <BannerAdvertisement />
+      {/* <BannerAdvertisement /> */}
       <div className="flex flex-col mx-auto md:px-8 md:flex-row">
         <div className="w-full p-4 md:w-1/3">
           {midCards.map((card, index) => (

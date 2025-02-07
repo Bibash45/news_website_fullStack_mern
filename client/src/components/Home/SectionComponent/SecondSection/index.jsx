@@ -111,9 +111,10 @@ const SecondSection = () => {
     // Add more cards as needed
   ];
 
-  if (newsListLoading) {
+  if (newsListLoading || marketEconomynewsListLoading) {
     return <div>Loading...</div>;
   }
+  
   return (
     <div className="flex flex-col md:px-8 md:flex-row">
       <div className="w-full md:w-1/3 p-4">
