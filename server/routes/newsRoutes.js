@@ -1,0 +1,40 @@
+import express from "express";
+import {
+  createNews,
+  getNewsDetails,
+  getAllNews,
+  getNewsByPolitics,
+  getNewsByMarkeyEconomy,
+  getNewsByNepaliBrand,
+  getNewsBySociety,
+  getNewsByArt,
+  getNewsBySports,
+  getNewsByBlog,
+  getNewsByGlobal,
+  getNewsByIdea,
+  deleteNews,
+} from "../controllers/newsController.js";
+import { uploadMultiple } from "./uploadRoute.js";
+import { requireAdmin } from "../middleware/authMiddleware.js";
+import { requireUser } from "./../middleware/authMiddleware.js";
+
+const router = express.Router();
+
+router.route("/").post(uploadMultiple, createNews).get(getAllNews);
+
+router.route("/politics").get(getNewsByPolitics);
+router.route("/marketeconomy").get(getNewsByMarkeyEconomy);
+router.route("/idea").get(getNewsByIdea);
+router.route("/nepalibrand").get(getNewsByNepaliBrand);
+router.route("/society").get(getNewsBySociety);
+router.route("/art").get(getNewsByArt);
+router.route("/sports").get(getNewsBySports);
+router.route("/blog").get(getNewsByBlog);
+router.route("/global").get(getNewsByGlobal);
+
+// delete news
+router.route("/:newsId").delete(requireAdmin, deleteNews);
+
+router.route("/detailnews/:newsId").get(getNewsDetails);
+
+export default router;
