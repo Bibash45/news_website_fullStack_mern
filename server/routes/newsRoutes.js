@@ -13,6 +13,7 @@ import {
   getNewsByGlobal,
   getNewsByIdea,
   deleteNews,
+  searchNews,
 } from "../controllers/newsController.js";
 import { uploadMultiple } from "./uploadRoute.js";
 import { requireAdmin } from "../middleware/authMiddleware.js";
@@ -21,6 +22,8 @@ import { requireUser } from "./../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.route("/").post(uploadMultiple, createNews).get(getAllNews);
+
+router.route("/searchnews").get(searchNews);
 
 router.route("/politics").get(getNewsByPolitics);
 router.route("/marketeconomy").get(getNewsByMarkeyEconomy);

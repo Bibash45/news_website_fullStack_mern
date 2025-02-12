@@ -13,6 +13,7 @@ const newsTypes = [
   "खेलकुद",
   "ब्लग",
   "ग्लोबल",
+  "स्वास्थ्य",
 ];
 
 const provinces = [
@@ -23,7 +24,7 @@ const provinces = [
   "बागमती प्रदेश",
   "सुदूरपश्चिम प्रदेश",
   "मधेस प्रदेश",
-  "ग्लोबल",
+  "अन्य",
 ];
 
 const CreateNews = () => {
@@ -112,8 +113,8 @@ const CreateNews = () => {
           title: "",
           content: "",
           author: "",
-          province: "",
-          category: "",
+          province: provinces[0],
+          category: newsTypes[0],
           images: [],
           videos: [],
           tags: [],
@@ -132,13 +133,12 @@ const CreateNews = () => {
     }
   };
   useEffect(() => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       province: provinces[0],
       category: newsTypes[0],
-    });
+    }));
   }, []);
-
   return (
     <div className="p-4">
       <ToastContainer />

@@ -13,6 +13,7 @@ import SportsNews from "./pages/Admin/Sports";
 import BlogNews from "./pages/Admin/Blog";
 import GlobalNews from "./pages/Admin/Global";
 import AdminNewsDetails from "./pages/Admin/NewsDetailsPage";
+import Search from "./pages/Search/";
 
 const App = () => {
   return (
@@ -25,8 +26,11 @@ const App = () => {
           </Route>
           <Route path="/">
             <Route index element={<Home />} />
-            <Route path="/:id" element={<Article />} />
+            <Route path="/news/:id" element={<Article />} />
+            <Route path="/search" element={<Search />} />
           </Route>
+
+
           <Route path="/admin" element={<Admin />}>
             <Route index element={<Dasboard />} />
             <Route path="createnews" element={<CreateNews />} />

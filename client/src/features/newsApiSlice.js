@@ -14,6 +14,16 @@ export const newsApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSearchNews: builder.query({
+      query: ({ keyword, pageNumber }) => ({
+        url: `${BASE_URL}/api/news/searchnews`,
+        params: {
+          keyword,
+          pageNumber,
+        },
+        method: "GET",
+      }),
+    }),
     getDetailNews: builder.query({
       query: ({ newsId }) => ({
         url: `${BASE_URL}/api/news/detailnews/${newsId}`,
@@ -135,4 +145,5 @@ export const {
   useGetNewsByGlobalQuery,
   useDeleteNewsMutation,
   useGetDetailNewsQuery,
+  useGetSearchNewsQuery,
 } = newsApiSlice;

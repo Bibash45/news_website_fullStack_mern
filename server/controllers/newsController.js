@@ -60,6 +60,7 @@ export const deleteNews = asyncHandler(async (req, res) => {
 export const getNewsDetails = asyncHandler(async (req, res) => {
   const id = req.params.newsId;
   console.log(id);
+  f;
   const news = await News.findById(id);
   if (!news) {
     res.status(404);
@@ -117,6 +118,51 @@ export const getAllNews = asyncHandler(async (req, res) => {
 
     pages: Math.ceil(count / pageSize),
 
+    data: news,
+  });
+});
+
+export const searchNews = asyncHandler(async (req, res) => {
+  const pageNumber = Number(req.query.pageNumber) || 1;
+  const pageSize = Number(process.env.PAGINATION_LIMIT) || 20;
+
+  const keyword = req.query.keyword
+    ? {
+        $or: [
+          { title: { $regex: req.query.keyword, $options: 'i' } },
+          { content: { $regex: req.query.keyword, $options: 'i' } },
+        ],
+      }
+    : null;
+
+  // If no keyword is provided, return an empty response
+  if (!keyword) {
+    return res.status(200).json({
+      success: true,
+      message: 'No keyword provided, returning empty results.',
+      data: [],
+    });
+  }
+
+  // Count the total number of documents matching the query
+  const count = await News.countDocuments(keyword);
+
+  // Fetch the news articles with pagination
+  const news = await News.find(keyword)
+    .sort({ createdAt: -1 })
+    .limit(pageSize)
+    .skip(pageSize * (pageNumber - 1));
+
+  // Check if any news articles were found
+  if (!news || news.length === 0) {
+    return res.status(404).json({ success: false, message: 'News not found' });
+  }
+
+  // Return the response with the news articles
+  return res.status(200).json({
+    success: true,
+    page: pageNumber,
+    pages: Math.ceil(count / pageSize),
     data: news,
   });
 });

@@ -15,7 +15,7 @@ const newsSchema = new mongoose.Schema(
         "बागमती प्रदेश",
         "सुदूरपश्चिम प्रदेश",
         "मधेस प्रदेश",
-        "ग्लोबल",
+        "अन्य",
       ],
     },
     category: {
@@ -31,6 +31,7 @@ const newsSchema = new mongoose.Schema(
         "खेलकुद",
         "ब्लग",
         "ग्लोबल",
+        "स्वास्थ्य",
       ],
     },
     media: {
