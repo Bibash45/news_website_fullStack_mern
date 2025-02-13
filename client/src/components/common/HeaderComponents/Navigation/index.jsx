@@ -1,14 +1,26 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { NepaliDatePicker } from "nepali-datepicker-react";
-import "nepali-datepicker-react/dist/index.css";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchState, setSearchState] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+
+  const navLinks = [
+    { nav: "गृहपृष्ठ", link: "/" },
+    { nav: "राजनीति", link: "/politics" },
+    { nav: "बजार अर्थतन्त्र", link: "/marketeconomy" },
+    { nav: "विचार", link: "/idea" },
+    { nav: "नेपाली ब्रान्ड", link: "/nepalbrand" },
+    { nav: "समाज", link: "/society" },
+    { nav: "कला", link: "/art" },
+    { nav: "खेलकुद", link: "/sports" },
+    { nav: "ब्लग", link: "/blog" },
+    { nav: "ग्लोबल", link: "/global" },
+  ];
 
   return (
     <>
@@ -48,34 +60,23 @@ const Navigation = () => {
 
           {/* Desktop Navigation (Hidden on Small Screens) */}
           <div className="hidden md:flex gap-6">
-            {[
-              "गृहपृष्ठ",
-              "राजनीति",
-              "बजार अर्थतन्त्र ",
-              "विचार",
-              "नेपाली ब्रान्ड ",
-              " समाज",
-              "कला",
-              "खेलकुद",
-              "ब्लग ",
-              "ग्लोबल ",
-            ].map((item) => (
-              <NavLink
-                key={item}
-                to={`/${item.toLowerCase()}`}
+            {navLinks.map(({ nav, link }) => (
+              <Link
+                key={nav}
+                to={`${link.toLowerCase()}`}
                 className="text-white text-[0.937rem] font-bold lg:text-lg text-md"
               >
-                {item}
-              </NavLink>
+                {nav}
+              </Link>
             ))}
           </div>
 
           {/* Right Side Navigation */}
           <div className="hidden md:flex gap-6 items-center">
             <div className="hidden lg:flex">
-              {["भिडियो हेर्नुस्", "लाईभ हेर्नुस्"].map((item) => (
+              {["भिडियो हेर्नुस्", "लाईभ हेर्नुस्"].map((item, index) => (
                 <NavLink
-                  key={item}
+                  key={index}
                   to={`/${item.toLowerCase()}`}
                   className="text-white text-[0.937rem] font-bold mr-4 lg:text-lg text-md"
                 >
@@ -116,27 +117,37 @@ const Navigation = () => {
             {/* Search Input */}
             <input
               type="text"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
               className="px-2 py-2 border border-gray-500 bg-[#1f2a30] text-white rounded-md w-1/2 text-xs "
               placeholder="Search..."
             />
 
             {/* Search Button */}
-            <button className="px- py-1 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-xs">
-            <svg
-                 
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
+            <button
+              onClick={() => {
+                navigate(
+                  `/search?keyword=${searchValue}&fromDate=${fromDate}&toDate=${toDate}`
+                );
+                setFromDate("");
+                setToDate("");
+              }}
+              className="px- py-1 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-xs"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
             </button>
           </div>
         </nav>
@@ -144,25 +155,24 @@ const Navigation = () => {
         {/* Search */}
         {searchState && (
           <div className="hidden md:flex bg-[#182229]  md:flex-row items-center gap-4 justify-center p-4 shadow-md">
-            {/* From Date (Nepali) */}
+            {/* From Date (English) */}
             <div className="flex flex-col">
-              <NepaliDatePicker
-                inputClassName="form-control px-4 py-2  border border-gray-500 bg-[#1f2a30] text-white w-full md:w-40 lg:w-48"
+              <input
+                type="date"
                 value={fromDate}
-                onChange={(date) => setFromDate(date)}
-                format="YYYY/MM/DD"
+                onChange={(e) => setFromDate(e.target.value)}
+                className="form-control px-4 py-2 border border-gray-500 bg-[#1f2a30] text-white w-full md:w-40 lg:w-48"
                 placeholder="from"
               />
             </div>
 
-            {/* To Date (Nepali) */}
+            {/* To Date (English) */}
             <div className="flex flex-col">
-              <NepaliDatePicker
-                inputClassName="form-control px-4 py-2 rounded-lg border border-gray-500 bg-[#1f2a30] text-white w-full md:w-40 lg:w-48"
-                className=""
+              <input
+                type="date"
                 value={toDate}
-                onChange={(date) => setToDate(date)}
-                format="YYYY/MM/DD"
+                onChange={(e) => setToDate(e.target.value)}
+                className="form-control px-4 py-2 rounded-lg border border-gray-500 bg-[#1f2a30] text-white w-full md:w-40 lg:w-48"
                 placeholder="to"
               />
             </div>
@@ -171,13 +181,24 @@ const Navigation = () => {
             <div className="flex flex-col w-full md:w-1/3">
               <input
                 type="text"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
                 className="px-4 py-2 rounded-lg border border-gray-500 bg-[#1f2a30] text-white w-full"
                 placeholder="Search news..."
               />
             </div>
 
             {/* Search Button */}
-            <button className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
+            <button
+              onClick={() => {
+                navigate(
+                  `/search?keyword=${searchValue}&fromDate=${fromDate}&toDate=${toDate}`
+                );
+                setFromDate("");
+                setToDate("");
+              }}
+              className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition"
+            >
               Search
             </button>
           </div>
@@ -191,7 +212,7 @@ const Navigation = () => {
           onClick={() => setIsSidebarOpen(false)}
         >
           <div
-            className="fixed top-0 left-0 h-full w-52   shadow-lg transform transition-transform bg-[#182229]"
+            className="fixed top-0 left-0 h-full w-52 shadow-lg transform transition-transform bg-[#182229]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}

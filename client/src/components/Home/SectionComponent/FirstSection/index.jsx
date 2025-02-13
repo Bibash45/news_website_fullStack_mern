@@ -10,7 +10,6 @@ const FirstSection = () => {
     error: newsListError,
   } = useGetAllNewsQuery({ keyword: "", pageNumber: 1 });
 
-
   if (newsListLoading) {
     return <div>Loading...</div>;
   }
@@ -59,20 +58,6 @@ const FirstSection = () => {
           ))}
         </div>
         <div className="w-full p-4 md:w-1/3">
-          <Link className="relaitve w-305 h-171 group mb-4">
-            <div>
-              <video
-                className="w-full h-full rounded-sm"
-                autoPlay={true}
-                muted
-                playsInline
-                loop
-                controls
-              >
-                <source src="videos/FirstSection/video.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </Link>
           <div>
             <div className="mb-2 mt-2 font-bold text-xl decoration-1 hover:underline hover:underline-offset-4">
               ताजा अपडेट

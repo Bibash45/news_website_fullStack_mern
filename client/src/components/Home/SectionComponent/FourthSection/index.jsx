@@ -1,5 +1,7 @@
 import { Share2, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import { useGetNewsByProvinceQuery } from "../../../../features/newsApiSlice";
+import { formatDate } from "../../../../utils/Dateformatter";
 
 const provinces = [
   "कोशी",
@@ -16,6 +18,7 @@ const Button = ({ children, onClick, variant = "outline" }) => {
     variant === "default"
       ? "bg-gray-600 text-white"
       : "border border-black text-black";
+
   return (
     <button
       onClick={onClick}
@@ -37,7 +40,21 @@ const Card = ({ children, className = "" }) => {
 };
 
 const FourthSection = () => {
-  const [selectedProvince, setSelectedProvince] = useState(provinces[6]);
+  const [selectedProvince, setSelectedProvince] = useState(provinces[0]);
+
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const {
+    data: newsList,
+    isLoading: newsListLoading,
+    error: newsListError,
+    refetch: newsListRefetch,
+  } = useGetNewsByProvinceQuery({ province: selectedProvince, pageNumber });
+  console.log(newsList);
+
+  if (newsListLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="px-8">
@@ -45,7 +62,7 @@ const FourthSection = () => {
 
       {/* Province Selection */}
       <div className="mb-6 mt-3">
-        <h2 className="text-2xl font-semibold">Select Province</h2>
+        <h2 className="text-2xl font-semibold ">प्रदेश छान्नुहोस्</h2>
         <div className="flex gap-2 mt-2 overflow-auto">
           {provinces.map((province) => (
             <Button
@@ -65,45 +82,45 @@ const FourthSection = () => {
             {selectedProvince}को विषेस समाचार
           </h1>
 
-          {/* Cover Image */}
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2pIaqzXTjfUyzBQPc6y7WgPV5pWmsgadKMA&s"
-            className="w-full rounded-xl my-4 shadow-lg"
-            alt="img"
-          />
-
-          {/* News Content */}
-          <div className="text-gray-700 leading-7 space-y-4 ">
-            <p>
-              In a stunning turn of events, authorities have confirmed a major
-              breakthrough in the ongoing investigation regarding...
-            </p>
-            <p>
-              According to officials, the situation is rapidly evolving, with
-              new developments expected soon. Stay tuned for more updates.
-            </p>
-          </div>
+          {newsList && newsList.data && (
+            <div>
+              <div className="h-[400px] mb-3">
+                <img
+                  src={`http://localhost:8000/${newsList.data[0].media.images[0]}`}
+                  className="w-full h-full rounded-xl  shadow-lg object-contain"
+                  alt="img"
+                />
+              </div>
+              {/* News Content */}
+              <div className="text-gray-900 font-semibold leading-7 space-y-4 text-2xl">
+                <p>{newsList.data[0].title}</p>
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="pl-5">
-          {/* Related News */}
-          <h2 className="text-2xl font-semibold mt-8">
-           {selectedProvince}बाट सम्बन्धित समाचार
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            {[1, 2, 3,4,5,6].map((news) => (
-              <Card key={news} className="cursor-pointer">
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold">
-                    Another Major Story in {selectedProvince}
-                  </h3>
-                  <p className="text-gray-500 text-sm">Feb 4, 2025</p>
-                </div>
-              </Card>
-            ))}
+        {newsList && newsList.data && (
+          <div className="pl-5">
+            {/* Related News */}
+            <h2 className="text-2xl font-semibold mt-8">
+              {selectedProvince}बाट सम्बन्धित समाचार
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              {newsList.data.slice(1, 7).map((news) => (
+                <Card key={news._id} className="cursor-pointer">
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold">{news.title}</h3>
+                    <p className="text-gray-500 text-sm">
+                      {formatDate(news.createdAt)}
+                    </p>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
+      <hr />
     </div>
   );
 };

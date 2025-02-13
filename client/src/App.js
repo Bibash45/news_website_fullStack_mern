@@ -14,6 +14,15 @@ import BlogNews from "./pages/Admin/Blog";
 import GlobalNews from "./pages/Admin/Global";
 import AdminNewsDetails from "./pages/Admin/NewsDetailsPage";
 import Search from "./pages/Search/";
+import PoliticsPage from "./pages/Politics";
+import MarketEconomy from "./pages/MarketEconomy";
+import IdeaPage from "./pages/IdeaPage";
+import BlogPage from "./pages/BlogPage";
+import GlobalPage from "./pages/GlobalPage";
+import NepalBrandPage from "./pages/NepalBrandPage";
+import ArtPage from "./pages/ArtPage";
+import SocietyPage from "./pages/SocietyPage";
+import SportsPage from "./pages/SportsPage";
 
 const App = () => {
   return (
@@ -26,8 +35,17 @@ const App = () => {
           </Route>
           <Route path="/">
             <Route index element={<Home />} />
-            <Route path="/news/:id" element={<Article />} />
+            <Route path="/news/:newsId" element={<Article />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/politics" element={<PoliticsPage />} />
+            <Route path="/marketeconomy" element={<MarketEconomy />} />
+            <Route path="/idea" element={<IdeaPage />} />
+            <Route path="/nepalbrand" element={<NepalBrandPage />} />
+            <Route path="/society" element={<SocietyPage />} />
+            <Route path="/art" element={<ArtPage />} />
+            <Route path="/sports" element={<SportsPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/global" element={<GlobalPage />} />
           </Route>
 
 

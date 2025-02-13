@@ -15,11 +15,13 @@ export const newsApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getSearchNews: builder.query({
-      query: ({ keyword, pageNumber }) => ({
+      query: ({ keyword, pageNumber, fromDate, toDate }) => ({
         url: `${BASE_URL}/api/news/searchnews`,
         params: {
           keyword,
           pageNumber,
+          fromDate,
+          toDate,
         },
         method: "GET",
       }),
@@ -27,6 +29,16 @@ export const newsApiSlice = apiSlice.injectEndpoints({
     getDetailNews: builder.query({
       query: ({ newsId }) => ({
         url: `${BASE_URL}/api/news/detailnews/${newsId}`,
+        method: "GET",
+      }),
+    }),
+    getNewsByProvince: builder.query({
+      query: ({ province, pageNumber }) => ({
+        url: `${BASE_URL}/api/news/province`,
+        params: {
+          province,
+          pageNumber,
+        },
         method: "GET",
       }),
     }),
@@ -146,4 +158,5 @@ export const {
   useDeleteNewsMutation,
   useGetDetailNewsQuery,
   useGetSearchNewsQuery,
+  useGetNewsByProvinceQuery,
 } = newsApiSlice;

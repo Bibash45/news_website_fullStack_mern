@@ -14,6 +14,7 @@ import {
   getNewsByIdea,
   deleteNews,
   searchNews,
+  getNewsByProvince,
 } from "../controllers/newsController.js";
 import { uploadMultiple } from "./uploadRoute.js";
 import { requireAdmin } from "../middleware/authMiddleware.js";
@@ -39,5 +40,8 @@ router.route("/global").get(getNewsByGlobal);
 router.route("/:newsId").delete(requireAdmin, deleteNews);
 
 router.route("/detailnews/:newsId").get(getNewsDetails);
+
+// get news by province
+router.route("/province").get(getNewsByProvince);
 
 export default router;
