@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
+  const {pathname} = useLocation()
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchState, setSearchState] = useState(false);
@@ -25,7 +26,7 @@ const Navigation = () => {
   return (
     <>
       <div>
-        <nav className="flex bg-[#182229] px-4 pt-4 md:justify-around items-center justify-between">
+        <nav className="flex bg-[#182229] px-4 pt-4 pb-2 md:justify-around items-center justify-between">
           <div className="flex items-center gap-4">
             {/* Menu Icon (Visible on Small Screens) */}
             <div
@@ -52,7 +53,7 @@ const Navigation = () => {
             <Link to="/">
               <img
                 className="w-[50px] h-[50px] rounded-full object-contain"
-                src="https://scontent.fktm3-1.fna.fbcdn.net/v/t39.30808-6/456430359_484335661016328_3546235393355045369_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=vjdPWoj0f44Q7kNvgElBfRU&_nc_oc=Adgbh63HEG9O_TzwvCezhUoLUskF9E5OD4edMQAm4GWcD5pq4QQkoUpBLSsalQG83kU_hjRyMlsqY1Wsn4nhiz0F&_nc_zt=23&_nc_ht=scontent.fktm3-1.fna&_nc_gid=AA7yXxjHt35j6e08pU1M9tr&oh=00_AYCUoVwCD_LlTc_ISEBoKB8Qw47U9DFFilGis-eGiAGkgg&oe=67A97661"
+                src="https://scontent.fktm3-1.fna.fbcdn.net/v/t39.30808-6/456430359_484335661016328_3546235393355045369_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=jd937vpI-uIQ7kNvgF6Kakb&_nc_oc=AdixKPpOGV_4BduEtDYulnwBtagtCbpJaRdG5R2pspSfa7GO3Wz8Ob9GlMXUHAGAs6S0DfrYdKmxnJPc8XuWRpGs&_nc_zt=23&_nc_ht=scontent.fktm3-1.fna&_nc_gid=Agb0orSQw81xUVdoVg04y_g&oh=00_AYCWN8rBYx0WK4VwMzXHGO4wyz_KOhWGe-rkknYc2dFDpw&oe=67B472E1"
                 alt=""
               />
             </Link>
@@ -64,7 +65,7 @@ const Navigation = () => {
               <Link
                 key={nav}
                 to={`${link.toLowerCase()}`}
-                className="text-white text-[0.937rem] font-bold lg:text-lg text-md"
+                className={`text-white text-[0.937rem]  lg:text-lg text-md ${pathname === link && "font-bold border-b border-gray-400"}`}
               >
                 {nav}
               </Link>
@@ -74,7 +75,10 @@ const Navigation = () => {
           {/* Right Side Navigation */}
           <div className="hidden md:flex gap-6 items-center">
             <div className="hidden lg:flex">
-              {["भिडियो हेर्नुस्", "लाईभ हेर्नुस्"].map((item, index) => (
+              {[
+                // "भिडियो हेर्नुस्",
+                "लाईभ हेर्नुस्",
+              ].map((item, index) => (
                 <NavLink
                   key={index}
                   to={`/${item.toLowerCase()}`}

@@ -18,7 +18,7 @@ const FirstSection = () => {
     <>
       <div className="flex flex-col md:px-8 md:flex-row">
         <div className="w-full p-4 md:w-2/3">
-          <Link to="/new-link" className="">
+          <Link to={`/news/${newsList.data[0]._id}`} className="">
             <div className="max-w-screen-md mx-auto">
               <h1 className="text-3xl font-bold mb-4 text-black text-center decoration-1 hover:underline hover:underline-offset-8 hover:text-gray-500">
                 {newsList.data[0].title}
@@ -40,7 +40,7 @@ const FirstSection = () => {
               <ul className="px-5 mt-1 text-xl">
                 {newsList.data.slice(0, 6).map((news, i) => (
                   <li key={i} className="list-disc">
-                    {news.title}
+                    <Link>{news.title}</Link>
                   </li>
                 ))}
               </ul>
@@ -54,6 +54,7 @@ const FirstSection = () => {
               title={card.title}
               imageSrc={`${BASE_URL}/${card.media.images[0]}`}
               tag={card.tags[0]}
+              link={`/news/${card._id}`}
             />
           ))}
         </div>
@@ -67,8 +68,8 @@ const FirstSection = () => {
                 <CardTextOnly
                   key={index}
                   text={card.title}
-                  link={"/"}
                   color={false}
+                  link={`/news/${card._id}`}
                 />
               ))}
             </div>

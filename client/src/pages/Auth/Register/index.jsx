@@ -256,9 +256,6 @@ const Register = () => {
           </form>
         </div>
       </div>
-      <footer className="bg-black pb-8 px-8">
-       
-      </footer>
     </div>
   );
 };

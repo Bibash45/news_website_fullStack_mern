@@ -2,6 +2,8 @@ import { Share2, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useGetNewsByProvinceQuery } from "../../../../features/newsApiSlice";
 import { formatDate } from "../../../../utils/Dateformatter";
+import { Link } from "react-router-dom";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 const provinces = [
   "कोशी",
@@ -12,7 +14,45 @@ const provinces = [
   "कर्णाली",
   "सुदुरपश्चिम",
 ];
+const Pagination = ({ totalPages, currentPage, setPageNumber }) => {
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+  if (totalPages === 1) {
+    return;
+  }
 
+  return (
+    <div className="flex items-center justify-end space-x-2 mb-6 mr-3">
+      <button
+        className="px-1 py-1 border rounded-lg hover:bg-gray-200 disabled:opacity-50"
+        onClick={() => setPageNumber(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        <MdKeyboardArrowLeft size={20} />
+      </button>
+      {pageNumbers.map((num) => (
+        <button
+          key={num}
+          className={`px-2 py-1 border rounded-lg hover:bg-gray-200 ${
+            currentPage === num ? "bg-black text-white" : ""
+          }`}
+          onClick={() => setPageNumber(num)}
+        >
+          {num}
+        </button>
+      ))}
+      <button
+        className="px-1 py-1 border rounded-lg hover:bg-gray-200 disabled:opacity-50"
+        onClick={() => setPageNumber(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        <MdKeyboardArrowLeft size={25} className="rotate-180" />
+      </button>
+    </div>
+  );
+};
 const Button = ({ children, onClick, variant = "outline" }) => {
   const styles =
     variant === "default"
@@ -75,7 +115,7 @@ const FourthSection = () => {
           ))}
         </div>
       </div>
-      <div className=" mx-auto p-4 grid grid-cols-1 md:grid-cols-2">
+      <div className=" mx-auto px-4 pt-4 pb-3 grid grid-cols-1 md:grid-cols-2">
         <div>
           {/* News Header */}
           <h1 className="text-3xl font-bold text-gray-900">
@@ -83,43 +123,53 @@ const FourthSection = () => {
           </h1>
 
           {newsList && newsList.data && (
-            <div>
+            <Link to={`/news/${newsList?.data[0]._id}`}>
               <div className="h-[400px] mb-3">
                 <img
                   src={`http://localhost:8000/${newsList.data[0].media.images[0]}`}
-                  className="w-full h-full rounded-xl  shadow-lg object-contain"
+                  className="w-full h-full rounded-xl  object-cover"
                   alt="img"
                 />
               </div>
               {/* News Content */}
-              <div className="text-gray-900 font-semibold leading-7 space-y-4 text-2xl">
+              <div className="text-gray-900 font-semibold leading-7 space-y-4 text-2xl text-center">
                 <p>{newsList.data[0].title}</p>
               </div>
-            </div>
+            </Link>
           )}
         </div>
 
         {newsList && newsList.data && (
           <div className="pl-5">
+            {newsList?.data.slice(1, 7).length > 0 && (
+              <h2 className="text-2xl font-semibold mt-8">
+                {selectedProvince}बाट सम्बन्धित समाचार
+              </h2>
+            )}
             {/* Related News */}
-            <h2 className="text-2xl font-semibold mt-8">
-              {selectedProvince}बाट सम्बन्धित समाचार
-            </h2>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               {newsList.data.slice(1, 7).map((news) => (
-                <Card key={news._id} className="cursor-pointer">
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold">{news.title}</h3>
-                    <p className="text-gray-500 text-sm">
-                      {formatDate(news.createdAt)}
-                    </p>
-                  </div>
-                </Card>
+                <Link to={`/news/${news._id}`}>
+                  <Card key={news._id} className="cursor-pointer">
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold">{news.title}</h3>
+                      <p className="text-gray-500 text-sm">
+                        {formatDate(news.createdAt)}
+                      </p>
+                    </div>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
         )}
       </div>
+      <Pagination
+        totalPages={newsList.pages}
+        currentPage={newsList.page}
+        setPageNumber={setPageNumber}
+      />
       <hr />
     </div>
   );

@@ -51,6 +51,7 @@ const SecondSection = () => {
                 title={card.title}
                 imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                 tag={card.tags[0]}
+                link={`/news/${card._id}`}
               />
             ))}
         {newsList &&
@@ -60,7 +61,7 @@ const SecondSection = () => {
               <CardTextOnly
                 key={index}
                 text={card.title}
-                link={"/"}
+                link={`/news/${card._id}`}
                 color={false}
               />
             ))}
@@ -76,6 +77,7 @@ const SecondSection = () => {
                 text={card.title}
                 imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                 tag={card.tags[0]}
+                link={`/news/${card._id}`}
               />
             ))}
         {marketEconomynewsList &&
@@ -87,6 +89,7 @@ const SecondSection = () => {
                 text={card.title}
                 imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                 tag={card.tags[0]}
+                link={`/news/${card._id}`}
               />
             ))}
       </div>
@@ -102,6 +105,7 @@ const SecondSection = () => {
                   text={card.title}
                   imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                   tag={card.tags[0]}
+                  link={`/news/${card._id}`}
                 />
               ))}
         </div>

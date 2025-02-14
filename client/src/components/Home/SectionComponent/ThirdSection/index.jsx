@@ -26,6 +26,7 @@ const ThirdSection = () => {
               text={card.title}
               imageSrc={`${BASE_URL}/${card.media.images[0]}`}
               tag={card.tags[0]}
+              link={`/news/${card._id}`}
             />
           ))}
           {newsList.data.slice(14, 18).map((card, index) => (
@@ -34,6 +35,7 @@ const ThirdSection = () => {
               text={card.title}
               imageSrc={`${BASE_URL}/${card.media.images[0]}`}
               tag={card.tags[0]}
+              link={`/news/${card._id}`}
             />
           ))}
         </div>
@@ -44,6 +46,7 @@ const ThirdSection = () => {
               text={card.title}
               imageSrc={`${BASE_URL}/${card.media.images[0]}`}
               tag={card.tags[0]}
+              link={`/news/${card._id}`}
             />
           ))}
           {newsList.data.slice(19, 21).map((card, index) => (
@@ -52,6 +55,7 @@ const ThirdSection = () => {
               text={card.title}
               imageSrc={`${BASE_URL}/${card.media.images[0]}`}
               tag={card.tags[0]}
+              link={`/news/${card._id}`}
             />
           ))}
         </div>
@@ -62,6 +66,7 @@ const ThirdSection = () => {
               text={card.title}
               imageSrc={`${BASE_URL}/${card.media.images[0]}`}
               tag={card.tags[0]}
+              link={`/news/${card._id}`}
             />
           ))}
           {newsList.data.slice(22, 26).map((card, index) => (
@@ -70,6 +75,7 @@ const ThirdSection = () => {
               text={card.title}
               imageSrc={`${BASE_URL}/${card.media.images[0]}`}
               tag={card.tags[0]}
+              link={`/news/${card._id}`}
             />
           ))}
         </div>

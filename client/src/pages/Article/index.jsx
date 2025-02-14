@@ -77,13 +77,13 @@ const Article = () => {
     <>
       <Header />
       <div className="flex flex-wrap">
-        <div className="w-full p-4 md:w-3/4">
-          <div className="title">
-            <h1 className="text-4xl font-bold mx-4 mt-4 pb-2">
+        <div className="w-full p-4 md:w-3/4 ">
+          <div className="title flex justify-center">
+            <h1 className="text-4xl font-bold mx-4 mt-4 pb-1 text-justify px-[65px]">
               {newsList.data.title}
             </h1>
           </div>
-          <div className="pl-4 author flex">
+          <div className="pl-4 author flex text-center justify-center">
             <div className="author-name-date flex gap-2">
               <div className="author-name text-base text-gray-600 pl-2 flex items-center gap-1">
                 <span>

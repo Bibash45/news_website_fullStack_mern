@@ -41,6 +41,7 @@ const FifthSection = () => {
                   title={card.title}
                   imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                   tag={card.tags[0]}
+                  link={`/news/${card._id}`}
                 />
               ))}
           {sportsnewsList &&
@@ -50,8 +51,8 @@ const FifthSection = () => {
                 <CardTextOnly
                   key={index}
                   text={card.title}
-                  link={"/"}
                   color={false}
+                  link={`/news/${card._id}`}
                 />
               ))}
         </div>
@@ -66,6 +67,7 @@ const FifthSection = () => {
                   title={card.title}
                   imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                   tag={card.tags[0]}
+                  link={`/news/${card._id}`}
                 />
               ))}
           {ideanewsList &&
@@ -75,8 +77,8 @@ const FifthSection = () => {
                 <CardTextOnly
                   key={index}
                   text={card.title}
-                  link={"/"}
                   color={false}
+                  link={`/news/${card._id}`}
                 />
               ))}
         </div>
@@ -91,6 +93,7 @@ const FifthSection = () => {
                   title={card.title}
                   imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                   tag={card.tags[0]}
+                  link={`/news/${card._id}`}
                 />
               ))}
           {societynewsList &&
@@ -100,7 +103,7 @@ const FifthSection = () => {
                 <CardTextOnly
                   key={index}
                   text={card.title}
-                  link={"/"}
+                  link={`/news/${card._id}`}
                   color={false}
                 />
               ))}

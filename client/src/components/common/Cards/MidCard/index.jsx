@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-const MidCard = ({ title, imageSrc, tag, color, horizontal }) => {
+const MidCard = ({ title, imageSrc, tag, color, horizontal, link }) => {
   console.log(imageSrc);
 
   return (
-    <Link>
+    <Link to={link}>
       <div
         className={`${horizontal} ? "pb-2" : ""} ${color ? "bg-black" : ""}`}
       >

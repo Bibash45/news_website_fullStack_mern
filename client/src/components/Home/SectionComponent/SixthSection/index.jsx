@@ -42,6 +42,7 @@ const SixthSection = () => {
                   title={card.title}
                   imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                   tag={card.tags[0]}
+                  link={`/news/${card._id}`}
                 />
               ))}
           {artnewsList &&
@@ -51,7 +52,7 @@ const SixthSection = () => {
                 <CardTextOnly
                   key={index}
                   text={card.title}
-                  link={"/"}
+                  link={`/news/${card._id}`}
                   color={false}
                 />
               ))}
@@ -67,6 +68,7 @@ const SixthSection = () => {
                   title={card.title}
                   imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                   tag={card.tags[0]}
+                  link={`/news/${card._id}`}
                 />
               ))}
           {globalnewsList &&
@@ -76,7 +78,7 @@ const SixthSection = () => {
                 <CardTextOnly
                   key={index}
                   text={card.title}
-                  link={"/"}
+                  link={`/news/${card._id}`}
                   color={false}
                 />
               ))}
@@ -92,6 +94,7 @@ const SixthSection = () => {
                   title={card.title}
                   imageSrc={`${BASE_URL}/${card.media.images[0]}`}
                   tag={card.tags[0]}
+                  link={`/news/${card._id}`}
                 />
               ))}
           {blognewsList &&
@@ -101,7 +104,7 @@ const SixthSection = () => {
                 <CardTextOnly
                   key={index}
                   text={card.title}
-                  link={"/"}
+                  link={`/news/${card._id}`}
                   color={false}
                 />
               ))}

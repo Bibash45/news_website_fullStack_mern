@@ -1,45 +1,57 @@
 import { CategoryListFooter } from "../../List";
 import FooterFeatures from "../FooterFeatures";
 import Footer from "../Footer";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const NavFooter = ({ serachText }) => {
+const NavFooter = () => {
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
   const handleInputChange = (event) => {
-    console.log(event.target.value);
+    setSearchValue(event.target.value);
   };
 
   const categoriesRow1 = [
     {
       title: "गृहपृष्ठ",
+      link: "/",
     },
     {
       title: "राजनीति",
+      link: "/politics",
     },
     {
       title: "बजार अर्थतन्त्र",
+      link: "/marketeconomy",
     },
     {
       title: "विचार",
+      link: "/idea",
     },
     {
       title: "नेपाली ब्रान्ड",
+      link: "/nepalbrand",
     },
     {
       title: "समाज",
+      link: "/society",
     },
     {
       title: "कला",
+      link: "/art",
     },
     {
       title: "खेलकुद",
+      link: "/sports",
     },
     {
       title: "ब्लग",
+      link: "/blog",
     },
     {
       title: "ग्लोबल ",
+      link: "/global",
     },
-
-    // Add other categories similarly
   ];
 
   return (
@@ -48,11 +60,16 @@ const NavFooter = ({ serachText }) => {
       <div className="flex">
         <input
           type="text"
-          value={serachText}
+          value={searchValue}
           className="h-8 px-2 w-full bg-white border-none rounded-l outline-none"
           onChange={handleInputChange}
         />
-        <button className="h-8 bg-white text-black px-2 rounded-r flex item-center font-bold py-2">
+        <button
+          className="h-8 bg-white text-black px-2 rounded-r flex item-center font-bold py-2"
+          onClick={() => {
+            navigate(`/search?keyword=${searchValue}`);
+          }}
+        >
           खोज्नुहोस्
           <span className="ml-1">
             <svg

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const BigCard = ({ imageSrc, link, text, tag }) => {
-  // const { imageSrc, link, text, tag } = props;
   return (
     <Link to={link}>
       <div className="max-w-screen mx-auto mb-3">
