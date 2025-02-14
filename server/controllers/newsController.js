@@ -1,5 +1,7 @@
 import News from "../models/newsModel.js";
 import asyncHandler from "./../middleware/asyncHandler.js";
+import fs from "fs";
+import path from "path";
 
 export const testFunction = asyncHandler(async (req, res) => {
   res.send("test");
@@ -45,16 +47,49 @@ export const createNews = asyncHandler(async (req, res) => {
 });
 
 export const deleteNews = asyncHandler(async (req, res) => {
-  const newsId = req.params.newsId;
-  const news = await News.findByIdAndDelete(newsId);
-  if (!news) {
-    res.status(404);
-    throw new Error("News article not found");
+  const { newsId } = req.params;
+
+  try {
+    const news = await News.findById(newsId);
+    if (!news) {
+      return res
+        .status(404)
+        .json({ success: false, message: "News not found" });
+    }
+
+    // Helper function to delete files
+    const deleteFiles = (files) => {
+      files.forEach((filePath) => {
+        const fullPath = path.join(process.cwd(), filePath); // Ensure correct path
+        fs.unlink(fullPath, (err) => {
+          if (err && err.code !== "ENOENT") {
+            console.error(`Failed to delete file: ${fullPath}`, err);
+          }
+        });
+      });
+    };
+
+    // Delete images and videos if they exist
+    if (news.media?.images?.length) {
+      deleteFiles(news.media.images);
+    }
+    if (news.media?.videos?.length) {
+      deleteFiles(news.media.videos);
+    }
+
+    // Remove news from the database
+    await News.findByIdAndDelete(newsId);
+
+    res.json({
+      success: true,
+      message: "News removed successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to remove news item" });
   }
-  return res.json({
-    success: true,
-    message: "News article deleted successfully",
-  });
 });
 
 export const getNewsDetails = asyncHandler(async (req, res) => {
@@ -262,7 +297,6 @@ export const getNewsByGlobal = getNewsByCategory("ग्लोबल");
 
 export const getNewsByIdea = getNewsByCategory("विचार");
 
-
 export const getNewsByProvince = asyncHandler(async (req, res) => {
   const pageNumber = Number(req.query.pageNumber) || 1;
   const pageSize = 7;
@@ -270,7 +304,9 @@ export const getNewsByProvince = asyncHandler(async (req, res) => {
 
   // If no province is provided, return an empty response
   if (!province) {
-    return res.status(200).json({ success: true, page: pageNumber, pages: 0, data: [] });
+    return res
+      .status(200)
+      .json({ success: true, page: pageNumber, pages: 0, data: [] });
   }
 
   // Define filter criteria (case-insensitive search)
@@ -293,3 +329,24 @@ export const getNewsByProvince = asyncHandler(async (req, res) => {
   });
 });
 
+export const similarNews = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const news = await News.findById(id);
+  if (!news) {
+    return res.status(404).json({ message: "News not found" });
+  }
+
+  const similarNews = await News.find({
+    category: news.category,
+    _id: { $ne: id },
+  })
+    .limit(10)
+    .sort({ createdAt: -1 });
+
+  if (similarNews.length === 0) {
+    return res.status(404).json({ message: "No similar news found" });
+  }
+
+  res.json(similarNews);
+});

@@ -19,14 +19,14 @@ const FooterFeatures = () => {
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center">
           {/* logo */}
-          <Link to={"/"}>
+          {/* <Link to={"/"}>
             <img
               className="w-[50px] h-[50px] object-contain rounded-full "
               src="https://scontent.fktm3-1.fna.fbcdn.net/v/t39.30808-6/456430359_484335661016328_3546235393355045369_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=jd937vpI-uIQ7kNvgF6Kakb&_nc_oc=AdixKPpOGV_4BduEtDYulnwBtagtCbpJaRdG5R2pspSfa7GO3Wz8Ob9GlMXUHAGAs6S0DfrYdKmxnJPc8XuWRpGs&_nc_zt=23&_nc_ht=scontent.fktm3-1.fna&_nc_gid=Agb0orSQw81xUVdoVg04y_g&oh=00_AYCWN8rBYx0WK4VwMzXHGO4wyz_KOhWGe-rkknYc2dFDpw&oe=67B472E1"
               alt=""
             />
-          </Link>
-          <Link to="/" className="font-bold text-2xl">भोराज मल्ल</Link>
+          </Link> */}
+          <Link to="/" className="font-bold text-2xl bg-gradient-to-r from-amber-500 to-gray-300 bg-clip-text text-transparent">भण्डाफोर</Link>
         </div>
         <div className="flex items-center">
           {contentFooter.map((content, index) => (

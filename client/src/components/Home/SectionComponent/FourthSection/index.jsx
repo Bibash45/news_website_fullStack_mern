@@ -4,6 +4,7 @@ import { useGetNewsByProvinceQuery } from "../../../../features/newsApiSlice";
 import { formatDate } from "../../../../utils/Dateformatter";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { BASE_URL } from "../../../../constants";
 
 const provinces = [
   "कोशी",
@@ -126,7 +127,7 @@ const FourthSection = () => {
             <Link to={`/news/${newsList?.data[0]._id}`}>
               <div className="h-[400px] mb-3">
                 <img
-                  src={`http://localhost:8000/${newsList.data[0].media.images[0]}`}
+                  src={`${BASE_URL}/${newsList.data[0].media.images[0]}`}
                   className="w-full h-full rounded-xl  object-cover"
                   alt="img"
                 />

@@ -31,7 +31,6 @@ const newsSchema = new mongoose.Schema(
         "खेलकुद",
         "ब्लग",
         "ग्लोबल",
-        "स्वास्थ्य",
       ],
     },
     media: {

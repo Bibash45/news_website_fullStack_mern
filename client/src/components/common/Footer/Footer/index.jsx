@@ -6,7 +6,12 @@ const Footer = () => {
       <div className="text-white text-sm flex flex-wrap items-center justify-start w-full mt-4 gap-2 lg:text-2xl opacity-90">
         <div>
           <span>प्रधान सम्पादक : </span>
-          <span>अमित ढकाल</span>
+          <span>उपेन्द्र प्रसाद न्यौपाने</span>
+        </div>
+        |
+        <div>
+          <span>सलाहकार : </span>
+          <span>अर्जन खत्री</span>
         </div>
         |
         <div>

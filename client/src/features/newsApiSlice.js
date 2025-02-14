@@ -42,6 +42,12 @@ export const newsApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSimilarNews: builder.query({
+      query: ({ newsId }) => ({
+        url: `${BASE_URL}/api/news/similar/${newsId}`,
+        method: "GET",
+      }),
+    }),
     getNewsByPolitics: builder.query({
       query: ({ keyword, pageNumber }) => ({
         url: `${BASE_URL}/api/news/politics`,
@@ -159,4 +165,5 @@ export const {
   useGetDetailNewsQuery,
   useGetSearchNewsQuery,
   useGetNewsByProvinceQuery,
+  useGetSimilarNewsQuery,
 } = newsApiSlice;

@@ -50,13 +50,14 @@ const Navigation = () => {
             </div>
 
             {/* Logo */}
-            <Link to="/">
+            {/* <Link to="/">
               <img
                 className="w-[50px] h-[50px] rounded-full object-contain"
                 src="https://scontent.fktm3-1.fna.fbcdn.net/v/t39.30808-6/456430359_484335661016328_3546235393355045369_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=jd937vpI-uIQ7kNvgF6Kakb&_nc_oc=AdixKPpOGV_4BduEtDYulnwBtagtCbpJaRdG5R2pspSfa7GO3Wz8Ob9GlMXUHAGAs6S0DfrYdKmxnJPc8XuWRpGs&_nc_zt=23&_nc_ht=scontent.fktm3-1.fna&_nc_gid=Agb0orSQw81xUVdoVg04y_g&oh=00_AYCWN8rBYx0WK4VwMzXHGO4wyz_KOhWGe-rkknYc2dFDpw&oe=67B472E1"
                 alt=""
               />
-            </Link>
+            </Link> */}
+            <Link to="/" className="font-bold text-2xl bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparent">भण्डाफोर</Link>
           </div>
 
           {/* Desktop Navigation (Hidden on Small Screens) */}
@@ -234,25 +235,16 @@ const Navigation = () => {
 
             {/* Sidebar Links */}
             <div className="flex flex-col">
-              {[
-                "गृहपृष्ठ",
-                "राजनीति",
-                "बजार अर्थतन्त्र ",
-                "विचार",
-                "नेपाली ब्रान्ड ",
-                " समाज",
-                "कला",
-                "खेलकुद",
-                "ब्लग ",
-                "ग्लोबल ",
-              ].map((item) => (
+              {navLinks.map(({ nav, link }) => (
                 <NavLink
-                  key={item}
-                  to={`/${item.toLowerCase()}`}
-                  className="text-white text-lg font-semibold pl-5 py-3 hover:bg-[#202C33]"
+                  key={nav}
+                  to={`${link}`}
+                  className={`text-white text-lg font-semibold pl-5 py-3 ${
+                    pathname === link && "bg-[#202C33]"
+                  }`}
                   onClick={() => setIsSidebarOpen(false)}
                 >
-                  {item}
+                  {nav}
                 </NavLink>
               ))}
             </div>

@@ -1,10 +1,11 @@
+import { BASE_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     logout: builder.mutation({
       query: () => ({
-        url: `http://localhost:8000/api/user/logout`,
+        url: `${BASE_URL}/api/user/logout`,
         method: "POST",
       }),
     }),

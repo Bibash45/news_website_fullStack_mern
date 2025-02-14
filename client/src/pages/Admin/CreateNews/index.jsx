@@ -13,7 +13,6 @@ const newsTypes = [
   "खेलकुद",
   "ब्लग",
   "ग्लोबल",
-  "स्वास्थ्य",
 ];
 
 const provinces = [

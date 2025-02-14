@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../../features/authSlice.js";
 import { toast, ToastContainer } from "react-toastify";
+import { BASE_URL } from "../../../constants.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/user/login",
+        `${BASE_URL}/api/user/login`,
         {
           email: currentAccount.email,
           password: currentAccount.password,
@@ -63,7 +64,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-red-100">
+    <div className="flex justify-center items-center h-screen bg-gray-800">
       <ToastContainer />
       <div className="max-w-lg w-full p-10 bg-white rounded-xl shadow-lg">
         <div className="flex flex-col items-center">
@@ -139,7 +140,7 @@ const Login = () => {
               type="submit"
               className="w-full flex justify-center py-3 px-4 border border-transparent text-md font-bold rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none"
             >
-              Sign in
+              Sign In
             </button>
           </div>
         </form>

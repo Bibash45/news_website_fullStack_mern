@@ -9,7 +9,10 @@ import {
 } from "../../components";
 import { CiUser } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
-import { useGetDetailNewsQuery } from "../../features/newsApiSlice";
+import {
+  useGetDetailNewsQuery,
+  useGetSimilarNewsQuery,
+} from "../../features/newsApiSlice";
 import { formatDate } from "../../utils/Dateformatter";
 import { BASE_URL } from "../../constants";
 import { useEffect, useState } from "react";
@@ -22,6 +25,11 @@ const Article = () => {
     isLoading: newsListLoading,
     error: newsListError,
   } = useGetDetailNewsQuery({ newsId });
+  const {
+    data: similarNewsList,
+    isLoading: similarNewsListLoading,
+    error: similarNewsListError,
+  } = useGetSimilarNewsQuery({ newsId });
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = newsList?.data?.media?.images || [];
@@ -36,7 +44,7 @@ const Article = () => {
     }
   }, [images]);
 
-  if (newsListLoading) {
+  if (newsListLoading || similarNewsListLoading) {
     return <div>Loading...</div>;
   }
 
@@ -164,8 +172,14 @@ const Article = () => {
               <ColumnHead columnHeadTag={"भण्डाफोरबाट थप"} />
             </div>
             <div>
-              {smallHorizontalCard.map((card, index) => (
-                <SmallHorizontalCard key={index} {...card} />
+              {similarNewsList.map((card, index) => (
+                <SmallHorizontalCard
+                  key={index}
+                  text={card.title}
+                  link={`/news/${card._id}`}
+                  color={false}
+                  imageSrc={`${BASE_URL}/${card.media.images[0]}`}
+                />
               ))}
             </div>
           </div>
