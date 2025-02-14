@@ -19,7 +19,6 @@ const NewsSearchPage = () => {
     refetch: refetchNewsList,
   } = useGetSearchNewsQuery({ keyword, pageNumber, fromDate, toDate });
   console.log(newsList);
-  
 
   if (newsListLoading) {
     return <div>Loading...</div>;
@@ -39,19 +38,72 @@ const NewsSearchPage = () => {
         {/* Page Title */}
         {newsList && newsList.data && newsList.data.length > 0 ? (
           <>
-            <h2 className="text-xl font-bold text-start mb-2">
-              तपाईँले खोजि गर्नुभएको शब्द '
-              <span className="text-blue-500">{keyword}</span>' अनुसार निम्न
-              नतिजा प्राप्त भयो ।{" "}
-            </h2>
+            {keyword && (
+              <h2 className="text-xl font-bold text-start mb-2">
+                तपाईँले खोजि गर्नुभएको शब्द '
+                <span className="text-blue-500">{keyword}</span>' अनुसार निम्न
+                नतिजा प्राप्त भयो ।{" "}
+              </h2>
+            )}
+            {fromDate && toDate && (
+              <h2 className="text-xl font-bold text-start mb-2">
+                तपाईँले खोजि गर्नुभएको समयावधि '
+                <span className="text-blue-500">
+                  {fromDate} - {toDate}
+                </span>
+                ' अनुसार निम्न नतिजा प्राप्त भयो ।
+              </h2>
+            )}
+            {fromDate && toDate === "" && (
+              <h2 className="text-xl font-bold text-start mb-2">
+                तपाईँले खोजि गर्नुभएको समयावधि '
+                <span className="text-blue-500">{fromDate}</span>' देखि आजसम्म
+                निम्न नतिजा प्राप्त भयो ।
+              </h2>
+            )}
+            {toDate && fromDate === "" && (
+              <h2 className="text-xl font-bold text-start mb-2">
+                तपाईँले खोजि गर्नुभएको समयावधि '
+                <span className="text-blue-500">{toDate}</span>' अनुसार निम्न
+                नतिजा प्राप्त भयो ।
+              </h2>
+            )}
             <hr className="mb-6" />
           </>
         ) : (
-          <h2 className="text-center text-gray-500 text-2xl my-5">
-            तपाईँले खोजि गर्नुभएको शब्द '
-            <span className="text-blue-500">{keyword}</span>' अनुसार नतिजा
-            प्राप्त हुन सकेन ।
-          </h2>
+          <>
+            {keyword && (
+              <h2 className="text-center text-gray-500 text-2xl my-5">
+                तपाईँले खोजि गर्नुभएको शब्द '
+                <span className="text-blue-500">{keyword}</span>' अनुसार नतिजा
+                प्राप्त हुन सकेन ।
+              </h2>
+            )}
+
+            {fromDate && toDate && (
+              <h2 className="text-center text-gray-500 text-2xl my-5">
+                तपाईँले खोजि गर्नुभएको समयावधि '
+                <span className="text-blue-500">
+                  {fromDate} - {toDate}
+                </span>
+                ' अनुसार निम्न नतिजा प्राप्त हुन सकेन ।
+              </h2>
+            )}
+            {fromDate && toDate === "" && (
+              <h2 className="text-center text-gray-500 text-2xl my-5">
+                तपाईँले खोजि गर्नुभएको समयावधि '
+                <span className="text-blue-500">{fromDate}</span>' देखि आजसम्म
+                निम्न नतिजा प्राप्त हुन सकेन ।
+              </h2>
+            )}
+            {toDate && fromDate === "" && (
+              <h2 className="text-center text-gray-500 text-2xl my-5">
+                तपाईँले खोजि गर्नुभएको समयावधि '
+                <span className="text-blue-500">{toDate}</span>' अनुसार निम्न
+                नतिजा प्राप्त हुन सकेन ।
+              </h2>
+            )}
+          </>
         )}
 
         {/* News List */}

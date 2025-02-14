@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
-  const {pathname} = useLocation()
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchState, setSearchState] = useState(false);
@@ -65,7 +65,9 @@ const Navigation = () => {
               <Link
                 key={nav}
                 to={`${link.toLowerCase()}`}
-                className={`text-white text-[0.937rem]  lg:text-lg text-md ${pathname === link && "font-bold border-b border-gray-400"}`}
+                className={`text-white text-[0.937rem]  lg:text-lg text-md ${
+                  pathname === link && "font-bold border-b border-gray-400"
+                }`}
               >
                 {nav}
               </Link>
@@ -135,6 +137,7 @@ const Navigation = () => {
                 );
                 setFromDate("");
                 setToDate("");
+                setSearchValue("");
               }}
               className="px- py-1 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-xs"
             >
