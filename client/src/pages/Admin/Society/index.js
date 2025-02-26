@@ -180,9 +180,9 @@ const SocietyNews = () => {
                     </Link>
                   </div>
                   <div className="w-1/4 flex justify-end items-center">
-                    <button className="text-blue-500  px-3 py-2 rounded-md cursor-pointer w-full text-end flex justify-end">
+                    <Link to={`/admin/edit/${news._id}`} className="text-blue-500  px-3 py-2 rounded-md cursor-pointer w-full text-end flex justify-end">
                       <FaEdit size={25} />
-                    </button>
+                    </Link>
                   </div>
                   <div className="w-1/4 flex justify-end items-center">
                     <button 

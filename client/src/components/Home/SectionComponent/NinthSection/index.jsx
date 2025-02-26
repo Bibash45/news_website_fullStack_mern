@@ -4,7 +4,7 @@ const NinthSection = () => {
   const midCards = [
     {
       link: "/your-link-url",
-      imageSrc: "images/TenthSection/11.webp",
+      imageSrc: "images/TenthSection/11.jpg",
       text: "Windows Users Didn't Know This Simple Trick To Block All Ads (Do It Now)",
       horizontal: true,
     },

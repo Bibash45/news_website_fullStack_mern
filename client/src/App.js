@@ -23,6 +23,7 @@ import NepalBrandPage from "./pages/NepalBrandPage";
 import ArtPage from "./pages/ArtPage";
 import SocietyPage from "./pages/SocietyPage";
 import SportsPage from "./pages/SportsPage";
+import NewsEditPage from "./pages/Admin/NewsEditPage";
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/admin" element={<Admin />}>
             <Route index element={<Dasboard />} />
             <Route path="createnews" element={<CreateNews />} />
+            <Route path="edit/:newsId" element={<NewsEditPage />} />
             <Route path="newsdetails/:newsId" element={<AdminNewsDetails />} />
             <Route path="newslist" element={<NewsList />} />
             <Route path="politics" element={<PoliticsNews />} />

@@ -18,15 +18,15 @@ const FirstSection = () => {
     <>
       <div className="flex flex-col md:px-8 md:flex-row">
         <div className="w-full p-4 md:w-2/3">
-          <Link to={`/news/${newsList.data[0]._id}`} className="">
+          <Link to={`/news/${newsList?.data[0]._id}`} className="">
             <div className="max-w-screen-md mx-auto">
               <h1 className="text-3xl font-bold mb-4 text-black text-center decoration-1 hover:underline hover:underline-offset-8 hover:text-gray-500">
-                {newsList.data[0].title}
+                {newsList?.data[0].title}
               </h1>
               <div className="max-w-screen-md mx-auto mb-3">
                 <div className="aspect-w-16 aspect-h-9">
                   <img
-                    src={`${BASE_URL}/${newsList.data[0].media.images[0]}`}
+                    src={`${BASE_URL}/${newsList?.data[0].media.images[0]}`}
                     alt=""
                   />
                 </div>

@@ -148,12 +148,6 @@ const NewsList = () => {
                   <p className="text-sm text-gray-600 mt-2">
                     By {news.author} • {formatDate(news.createdAt)}
                   </p>
-                  <Link
-                    to="#"
-                    className="inline-block mt-4 text-blue-600 font-semibold hover:underline"
-                  >
-                    Read More →
-                  </Link>
 
                   {/* Video List for Each News */}
                   <div className="flex flex-wrap justify-start items-center mt-4">
@@ -184,9 +178,9 @@ const NewsList = () => {
                     </Link>
                   </div>
                   <div className="w-1/4 flex justify-end items-center">
-                    <button className="text-blue-500  px-3 py-2 rounded-md cursor-pointer w-full text-end flex justify-end">
+                    <Link to={`/admin/edit/${news._id}`} className="text-blue-500  px-3 py-2 rounded-md cursor-pointer w-full text-end flex justify-end">
                       <FaEdit size={25} />
-                    </button>
+                    </Link>
                   </div>
                   <div className="w-1/4 flex justify-end items-center">
                     <button

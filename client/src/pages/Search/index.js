@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Header, NavFooter, TenthSection } from "../../components";
-import { Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useGetSearchNewsQuery } from "../../features/newsApiSlice";
 import { BASE_URL } from "../../constants";
 
@@ -111,19 +111,21 @@ const NewsSearchPage = () => {
           {newsList &&
             newsList.data &&
             newsList.data.map((news) => (
-              <div
-                key={news._id}
-                className="bg-white px-6 rounded-xl transition "
-              >
-                <img
-                  className="mb-2"
-                  src={`${BASE_URL}/${
-                    news.media?.images?.[0] || "default-image.jpg"
-                  }`}
-                  alt={news.title}
-                />
-                <h3 className="text-xl font-semibold mb-2">{news.title}</h3>
-              </div>
+              <Link to={`/news/${news._id}`}>
+                <div
+                  key={news._id}
+                  className="bg-white px-6 rounded-xl transition "
+                >
+                  <img
+                    className="mb-2"
+                    src={`${BASE_URL}/${
+                      news.media?.images?.[0] || "default-image.jpg"
+                    }`}
+                    alt={news.title}
+                  />
+                  <h3 className="text-xl font-semibold mb-2">{news.title}</h3>
+                </div>
+              </Link>
             ))}
         </div>
       </div>

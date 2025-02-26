@@ -5,7 +5,7 @@ import { MidCard, CardTextOnly, BigBannerAdvertisement } from "../../../index";
 function TenthSection() {
   const midCards = [
     {
-      imageSrc: "images/EleventhSection/11.jpg",
+      imageSrc: "images/EleventhSection/humlamap.jpg",
       text: "ह्ग्सूइ क्गस्क्द ओइजोज्स्दो  गिज्सोइड जगी जिओस्ज्ग ज ओइजोइस्द ओजिओग्द्स्ज जिस्द्जगिओज्द्स ह्गिओद्शिगोअ इज्गिओस्ज्गोइ गिओस्ध्गिओअस्द ग्द्सिओगिओस्ज ",
       color: "black",
     },

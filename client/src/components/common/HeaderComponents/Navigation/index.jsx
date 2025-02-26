@@ -67,7 +67,7 @@ const Navigation = () => {
                 key={nav}
                 to={`${link.toLowerCase()}`}
                 className={`text-white text-[0.937rem]  lg:text-lg text-md ${
-                  pathname === link && "font-bold border-b border-gray-400"
+                  pathname === link && "font-bold border-b border-amber-400"
                 }`}
               >
                 {nav}

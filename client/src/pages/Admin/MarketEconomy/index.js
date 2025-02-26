@@ -67,7 +67,7 @@ const MarketEconomyNews = () => {
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="flex items-center justify-center ml-4 px-8 py-5 relative w-2/3 lg:w-1/3">
         <div className="w-full">
           <input
@@ -146,7 +146,6 @@ const MarketEconomyNews = () => {
                   <p className="text-sm text-gray-600 mt-2">
                     By {news.author} • {formatDate(news.createdAt)}
                   </p>
-                  
 
                   {/* Video List for Each News */}
                   <div className="flex flex-wrap justify-start items-center mt-4">
@@ -178,9 +177,12 @@ const MarketEconomyNews = () => {
                     </Link>
                   </div>
                   <div className="w-1/4 flex justify-end items-center">
-                    <button className="text-blue-500  px-3 py-2 rounded-md cursor-pointer w-full text-end flex justify-end">
+                    <Link
+                      to={`/admin/edit/${news._id}`}
+                      className="text-blue-500  px-3 py-2 rounded-md cursor-pointer w-full text-end flex justify-end"
+                    >
                       <FaEdit size={25} />
-                    </button>
+                    </Link>
                   </div>
                   <div className="w-1/4 flex justify-end items-center">
                     <button

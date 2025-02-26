@@ -3,16 +3,16 @@ import { MidCard } from "../../../common/Cards";
 const SeventhSection = () => {
   const midCards = [
     {
-      imageSrc: "images/EighthSection/11.webp",
+      imageSrc: "images/EighthSection/11.jpg",
     },
     {
-      imageSrc: "images/EighthSection/12.webp",
+      imageSrc: "images/EighthSection/12.jpeg",
     },
     {
-      imageSrc: "images/EighthSection/21.webp",
+      imageSrc: "images/EighthSection/21.png",
     },
     {
-      imageSrc: "images/EighthSection/22.webp",
+      imageSrc: "images/EighthSection/22.jpg",
     },
 
     // Add more cards as needed
