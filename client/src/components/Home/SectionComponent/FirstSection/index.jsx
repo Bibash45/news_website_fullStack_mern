@@ -40,7 +40,7 @@ const FirstSection = () => {
               <ul className="px-5 mt-1 text-xl">
                 {newsList.data.slice(0, 6).map((news, i) => (
                   <li key={i} className="list-disc">
-                    <Link>{news.title}</Link>
+                    <Link to={`/news/${news._id}`} className="hover:underline">{news.title}</Link>
                   </li>
                 ))}
               </ul>

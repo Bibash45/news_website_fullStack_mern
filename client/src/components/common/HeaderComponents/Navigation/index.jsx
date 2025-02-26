@@ -57,7 +57,12 @@ const Navigation = () => {
                 alt=""
               />
             </Link> */}
-            <Link to="/" className="font-bold text-2xl bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparent">भण्डाफोर</Link>
+            <Link
+              to="/"
+              className="font-bold text-2xl bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparent"
+            >
+              भण्डाफोर
+            </Link>
           </div>
 
           {/* Desktop Navigation (Hidden on Small Screens) */}
@@ -120,7 +125,7 @@ const Navigation = () => {
           </div>
 
           {/* search */}
-          <div className="flex md:hidden bg-[#182229] items-center justify-end gap-1 p-2 shadow-md w-full flex-nowrap">
+          <div className="flex md:hidden bg-[#182229] items-center justify-end gap-x-1 p-2 shadow-md w-full flex-nowrap">
             {/* Search Input */}
             <input
               type="text"
@@ -140,7 +145,7 @@ const Navigation = () => {
                 setToDate("");
                 setSearchValue("");
               }}
-              className="px- py-1 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-xs"
+              className="py-1 px-[2px] bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-xs"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +229,13 @@ const Navigation = () => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <div className="flex justify-end mr-4 mt-3">
+            <div className="flex justify-between mx-4 mt-4">
+              <Link
+                to="/"
+                className="font-bold text-2xl bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparent"
+              >
+                भण्डाफोर
+              </Link>
               <button
                 className="text-white text-xl mb-4"
                 onClick={() => setIsSidebarOpen(false)}

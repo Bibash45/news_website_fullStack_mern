@@ -59,35 +59,13 @@ const Article = () => {
   const firstHalf = totalParagraph.slice(0, mid);
   const secondHalf = totalParagraph.slice(mid);
 
-  const smallHorizontalCard = [
-    {
-      link: "/your-link-url",
-      imageSrc: "images/Article/21.jpg",
-      text: "Sununu endorses Haley, hoping to slow Trump’s march to ...",
-      tag: "",
-    },
-    {
-      link: "/your-link-url",
-      imageSrc: "images/Article/22.jpg",
-      text: "Here’s Nikki Haley’s path to the Republican ...",
-      tag: "",
-    },
-
-    {
-      link: "/your-link-url",
-      imageSrc: "images/Article/23.jpg",
-      text: "Opinion: The best way to keep Trump off the ballot",
-      tag: "",
-    },
-  ];
-
   return (
     <>
       <Header />
       <div className="flex flex-wrap">
         <div className="w-full p-4 md:w-3/4 ">
           <div className="title flex justify-center">
-            <h1 className="text-4xl font-bold mx-4 mt-4 pb-1 text-justify px-[65px]">
+            <h1 className="text-2xl md:text-4xl font-bold mx-4 mt-4 pb-1 text-justify px-[65px]">
               {newsList.data.title}
             </h1>
           </div>
