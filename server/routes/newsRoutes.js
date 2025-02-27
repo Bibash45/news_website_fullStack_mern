@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createNews,
+  updateNews,
   getNewsDetails,
   getAllNews,
   getNewsByPolitics,
@@ -24,6 +25,10 @@ import { requireUser } from "./../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.route("/").post(uploadMultiple, createNews).get(getAllNews);
+
+router
+  .route("/updateNews/:newsId")
+  .put(requireAdmin, uploadMultiple, updateNews);
 
 router.route("/searchnews").get(searchNews);
 

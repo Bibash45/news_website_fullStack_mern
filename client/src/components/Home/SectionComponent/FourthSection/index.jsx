@@ -9,11 +9,11 @@ import { BASE_URL } from "../../../../constants";
 const provinces = [
   "कोशी",
   "मधेस",
-  "वाग्मती",
+  "बागमती",
   "गण्डकी",
   "लुम्बिनी",
   "कर्णाली",
-  "सुदुरपश्चिम",
+  "सुदूरपश्चिम",
 ];
 const Pagination = ({ totalPages, currentPage, setPageNumber }) => {
   const pageNumbers = [];

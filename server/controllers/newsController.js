@@ -16,8 +16,6 @@ export const createNews = asyncHandler(async (req, res) => {
   try {
     const { title, content, author, category, province, tags } = req.body;
 
-    console.log(req.files);
-
     const images = req.files["images"]?.map((file) => file.path);
     const videos = req.files["videos"]?.map((file) => file.path);
 
@@ -44,6 +42,74 @@ export const createNews = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error(error);
   }
+});
+
+export const updateNews = asyncHandler(async (req, res) => {
+  const {
+    title,
+    content,
+    author,
+    category,
+    province,
+    tags,
+    oldVideos = [],
+    oldImages = [],
+  } = req.body;
+
+  const images = req.files?.["images"]?.map((file) => file.path) || [];
+  const videos = req.files?.["videos"]?.map((file) => file.path) || [];
+  const newsId = req.params.newsId;
+
+  const news = await News.findById(newsId);
+  if (!news) {
+    return res.status(404).json({ success: false, message: "News not found" });
+  }
+
+  // Update news details
+  news.title = title;
+  news.content = content;
+  news.author = author;
+  news.category = category;
+  news.province = province;
+  news.tags = tags;
+
+  // Filter out removed images (those not present in oldImages)
+  const filteredImages = news.media.images.filter((item) => oldImages.includes(item));
+  const finalImages = [...filteredImages, ...images]; // Keep filtered + new ones
+
+  // Filter out removed videos (those not present in oldVideos)
+  const filteredVideos = news.media.videos.filter((item) => oldVideos.includes(item));
+  const finalVideos = [...filteredVideos, ...videos]; // Keep filtered + new ones
+
+  // Identify images and videos to delete
+  const deletedImages = news.media.images.filter((item) => !oldImages.includes(item));
+  const deletedVideos = news.media.videos.filter((item) => !oldVideos.includes(item));
+
+  // Helper function to delete files
+  const deleteFiles = (files) => {
+    files.forEach((filePath) => {
+      const fullPath = path.join(process.cwd(), filePath);
+      fs.unlink(fullPath, (err) => {
+        if (err && err.code !== "ENOENT") {
+          console.error(`Failed to delete file: ${fullPath}`, err);
+        }
+      });
+    });
+  };
+
+  // Delete the removed images and videos
+  if (deletedImages.length) deleteFiles(deletedImages);
+  if (deletedVideos.length) deleteFiles(deletedVideos);
+
+  // Update media records in database
+  news.media.images = finalImages;
+  news.media.videos = finalVideos;
+  await news.save();
+
+  return res.status(200).json({
+    success: true,
+    message: "News updated successfully",
+  });
 });
 
 export const deleteNews = asyncHandler(async (req, res) => {

@@ -1,7 +1,71 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import NepaliDate from "nepali-date";
+import { IoCalendarOutline } from "react-icons/io5";import { IoMdTimer } from "react-icons/io";
 
+const convertToNepaliNumerals = (str) => {
+  const englishToNepaliMap = {
+    0: "०",
+    1: "१",
+    2: "२",
+    3: "३",
+    4: "४",
+    5: "५",
+    6: "६",
+    7: "७",
+    8: "८",
+    9: "९",
+  };
+
+  return str
+    .split("")
+    .map((char) => englishToNepaliMap[char] || char)
+    .join("");
+};
+
+const getNepaliDateTime = () => {
+  const nepaliDate = new NepaliDate(); // Get the current Nepali date
+  const nepaliDays = [
+    "आइतबार",
+    "सोमबार",
+    "मंगलबार",
+    "बुधबार",
+    "बिहीबार",
+    "शुक्रबार",
+    "शनिबार",
+  ];
+  const nepaliMonths = [
+    "बैशाख",
+    "जेठ",
+    "आसार",
+    "श्रावण",
+    "भदौ",
+    "असोज",
+    "कात्तिक",
+    "मङ्सिर",
+    "पुस",
+    "माघ",
+    "फागुन",
+    "चैत",
+  ];
+
+  const nepaliDay = nepaliDays[nepaliDate.getDay()];
+  const nepaliMonth = nepaliMonths[nepaliDate.getMonth()];
+  const nepaliDateNum = convertToNepaliNumerals(
+    nepaliDate.getDate().toString()
+  );
+  const nepaliYear = convertToNepaliNumerals(nepaliDate.getYear().toString());
+
+  const currentTime = new Date().toLocaleTimeString("ne-GB", { hour12: true });
+
+  return {
+    date: `${nepaliDay}, ${nepaliMonth} ${nepaliDateNum}, ${nepaliYear}`,
+    time: currentTime,
+  };
+};
 const Navigation = () => {
+  const [nepaliDateTime, setNepaliDateTime] = useState(getNepaliDateTime());
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,8 +87,26 @@ const Navigation = () => {
     { nav: "ग्लोबल", link: "/global" },
   ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNepaliDateTime(getNepaliDateTime());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
+      <div className="flex items-center justify-end gap-5 px-10 pt-2 pb-1 text-xs md:text-xl sm:text-md">
+        <div className="flex gap-[5px] items-center ">
+          <IoCalendarOutline size={20} color="" />
+          <span>{nepaliDateTime.date}</span>
+        </div>
+        <div className="flex items-center gap-[5px]">
+          <IoMdTimer size={22} />
+          <span>{nepaliDateTime.time}</span>
+        </div>
+      </div>
       <div>
         <nav className="flex bg-[#182229] px-4 pt-4 pb-2 md:justify-around items-center justify-between">
           <div className="flex items-center gap-4">
@@ -89,7 +171,7 @@ const Navigation = () => {
               ].map((item, index) => (
                 <NavLink
                   key={index}
-                  to={`/${item.toLowerCase()}`}
+                  to={`/`}
                   className="text-white text-[0.937rem] font-bold mr-4 lg:text-lg text-md"
                 >
                   {item}
@@ -217,7 +299,6 @@ const Navigation = () => {
           </div>
         )}
       </div>
-
       {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div

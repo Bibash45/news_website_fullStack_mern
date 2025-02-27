@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { TextEditor } from "../../../components/Admin";
 import { ToastContainer, toast } from "react-toastify";
 import { RxCross2 } from "react-icons/rx";
 import { useParams } from "react-router-dom";
 import { useGetDetailNewsQuery } from "../../../features/newsApiSlice";
 import { BASE_URL } from "../../../constants";
+import { useSelector } from "react-redux";
 
 const newsTypes = [
   "राजनीति",
@@ -30,6 +31,8 @@ const provinces = [
 ];
 
 const NewsEditPage = () => {
+  const { token } = useSelector((state) => state.auth.userInfo || {});
+
   const { newsId } = useParams();
 
   const [formData, setFormData] = useState({
@@ -39,17 +42,18 @@ const NewsEditPage = () => {
     province: "",
     category: "",
     images: [],
+    oldImages: [],
     videos: [],
+    oldVideos: [],
     tags: [],
   });
 
   const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
 
   const [tagInput, setTagInput] = useState("");
-  const [previewImages, setPreviewImages] = useState([]);
-  console.log(previewImages);
+  const [newImages, setNewImages] = useState([]);
 
-  const [previewVideos, setPreviewVideos] = useState([]);
+  const [newVideos, setNewVideos] = useState([]);
 
   const {
     data: detailNews,
@@ -59,46 +63,75 @@ const NewsEditPage = () => {
 
   const handleFileChange = (event, type) => {
     const files = Array.from(event.target.files);
-    const urls = files.map((file) => URL.createObjectURL(file));
+    if (files.length === 0) return;
 
     if (type === "image") {
-      setPreviewImages((prev) => [...prev, ...urls]);
-      setFormData({ ...formData, images: files });
+      setNewImages((prev) => [
+        ...prev,
+        ...files.map((file) => URL.createObjectURL(file)),
+      ]);
+      setFormData((prev) => ({ ...prev, images: [...prev.images, ...files] }));
     } else if (type === "video") {
-      setPreviewVideos((prev) => [...prev, ...urls]);
-      setFormData({ ...formData, videos: files });
+      setNewVideos((prev) => [
+        ...prev,
+        ...files.map((file) => URL.createObjectURL(file)),
+      ]);
+      setFormData((prev) => ({ ...prev, videos: [...prev.videos, ...files] }));
     }
   };
 
   const removeFile = (index, type) => {
+    setFormData((prev) => ({
+      ...prev,
+      [type === "image" ? "images" : "videos"]: prev[
+        type === "image" ? "images" : "videos"
+      ].filter((_, i) => i !== index),
+      [type === "image" ? "oldImages" : "oldVideos"]: prev[
+        type === "image" ? "oldImages" : "oldVideos"
+      ].filter((_, i) => i !== index),
+    }));
+
     if (type === "image") {
-      setPreviewImages((prev) => prev.filter((_, i) => i !== index));
-    } else if (type === "video") {
-      setPreviewVideos((prev) => prev.filter((_, i) => i !== index));
+      setNewImages((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      setNewVideos((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
-  const handleTagKeyPress = (event) => {
-    if (event.key === "Enter" && tagInput.trim()) {
-      event.preventDefault();
-      setFormData((prev) => ({
-        ...prev,
-        tags: [...prev.tags, tagInput.trim()],
-      }));
-      setTagInput("");
-    }
-  };
+  const handleTagKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter" && tagInput.trim()) {
+        event.preventDefault();
+        setFormData((prev) => ({
+          ...prev,
+          tags: [...prev.tags, tagInput.trim()],
+        }));
+        setTagInput("");
+      }
+    },
+    [tagInput]
+  );
 
-  const removeTag = (index) => {
+  const removeTag = useCallback((index) => {
     setFormData((prev) => ({
       ...prev,
       tags: prev.tags.filter((_, i) => i !== index),
     }));
-  };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitButtonLoading(false);
+    if (
+      !formData.title.trim() ||
+      !formData.content.trim() ||
+      !formData.author.trim()
+    ) {
+      toast.error("शीर्षक, सामग्री, र लेखक आवश्यक छ!");
+      return;
+    }
+
+    setSubmitButtonLoading(true);
+
     const form = new FormData();
     form.append("title", formData.title);
     form.append("content", formData.content);
@@ -106,65 +139,53 @@ const NewsEditPage = () => {
     form.append("province", formData.province);
     form.append("category", formData.category);
     formData.images.forEach((image) => form.append("images", image));
+    formData.oldImages.forEach((image) => form.append("oldImages", image));
     formData.videos.forEach((video) => form.append("videos", video));
+    formData.oldVideos.forEach((video) => form.append("oldVideos", video));
     formData.tags.forEach((tag) => form.append("tags", tag));
 
     try {
-      setSubmitButtonLoading(true);
-      const response = await fetch("http://localhost:8000/api/news/", {
-        method: "POST",
-        body: form,
-      });
-
+      const response = await fetch(
+        `${BASE_URL}/api/news/updateNews/${newsId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: form,
+        }
+      );
       const result = await response.json();
-      console.log(response);
       if (response.ok) {
-        toast("news posted successfully");
-        setFormData({
-          title: "",
-          content: "",
-          author: "",
-          province: provinces[0],
-          category: newsTypes[0],
-          images: [],
-          videos: [],
-          tags: [],
-        });
-        setTagInput("");
-        setPreviewImages([]);
-        setPreviewVideos([]);
-        setSubmitButtonLoading(false);
+        toast.success("News updated successfully");
       } else {
-        toast.error("failed");
-        setSubmitButtonLoading(false);
+        toast.error("Update failed");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error("Something went wrong!");
+    } finally {
       setSubmitButtonLoading(false);
     }
   };
-  useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      province: provinces[0],
-      category: newsTypes[0],
-    }));
-  }, []);
 
   useEffect(() => {
-    setFormData({
-      ...formData,
-      title: detailNews?.data?.title || "",
-      content: detailNews?.data?.content || "",
-      author: detailNews?.data?.author || "",
-      province: detailNews?.data?.province || "",
-      category: detailNews?.data?.category || "",
-      tags: detailNews?.data?.tags || [],
-    });
-    setPreviewImages(detailNews?.data?.media?.images || []);
-
-    setPreviewVideos(detailNews?.data?.media?.videos || []);
+    if (detailNews?.data) {
+      setFormData((prev) => ({
+        ...prev,
+        title: detailNews.data.title || "",
+        content: detailNews.data.content || "",
+        author: detailNews.data.author || "",
+        province: detailNews.data.province || provinces[0],
+        category: detailNews.data.category || newsTypes[0],
+        tags: detailNews.data.tags || [],
+        oldImages: detailNews.data.media?.images || [],
+        oldVideos: detailNews.data.media?.videos || [],
+      }));
+    }
   }, [detailNews]);
+
+  console.log(formData);
 
   if (detailNewsLoading) {
     return <div>Loading...</div>;
@@ -295,9 +316,10 @@ const NewsEditPage = () => {
               >
                 Select Files
               </label>
-              {previewImages.length > 0 && (
+              {(formData.oldImages || newImages.length > 0) && (
                 <PreviewMedia
-                  previewFiles={previewImages}
+                  previewFiles={formData.oldImages}
+                  newFiles={newImages}
                   removeFile={removeFile}
                   type="image"
                 />
@@ -322,9 +344,10 @@ const NewsEditPage = () => {
               >
                 Select Files
               </label>
-              {previewVideos.length > 0 && (
+              {(formData.oldVideos.length > 0 || newVideos.length > 0) && (
                 <PreviewMedia
-                  previewFiles={previewVideos}
+                  previewFiles={formData.oldVideos}
+                  newFiles={newVideos}
                   removeFile={removeFile}
                   type="video"
                 />
@@ -358,7 +381,7 @@ const NewsEditPage = () => {
   );
 };
 
-const PreviewMedia = ({ previewFiles, removeFile, type }) => (
+const PreviewMedia = ({ previewFiles, removeFile, type, newFiles }) => (
   <div className="mt-2 grid grid-cols-3 gap-2">
     {previewFiles.map((url, index) => (
       <div key={index} className="relative">
@@ -366,6 +389,38 @@ const PreviewMedia = ({ previewFiles, removeFile, type }) => (
           <div className="relative">
             <img
               src={`${BASE_URL}/${url}`}
+              alt={`Preview ${index}`}
+              className="w-full h-32 object-cover rounded-md"
+            />
+            <span
+              onClick={() => removeFile(index, type)}
+              className="absolute right-1 top-1 bg-gray-500 text-white rounded-full p-1 cursor-pointer"
+            >
+              <RxCross2 />
+            </span>
+          </div>
+        ) : (
+          <div className="relative">
+            <video controls className="w-full h-32 rounded-md">
+              <source src={`${BASE_URL}/${url}`} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <span
+              onClick={() => removeFile(index, type)}
+              className="absolute right-1 top-1 bg-gray-500 text-white rounded-full p-1 cursor-pointer"
+            >
+              <RxCross2 />
+            </span>
+          </div>
+        )}
+      </div>
+    ))}
+    {newFiles.map((url, index) => (
+      <div key={index} className="relative">
+        {type === "image" ? (
+          <div className="relative">
+            <img
+              src={`${url}`}
               alt={`Preview ${index}`}
               className="w-full h-32 object-cover rounded-md"
             />
