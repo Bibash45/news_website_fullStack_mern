@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -29,9 +29,9 @@ const AdminNewsDetails = () => {
           {detailNews.data.title}
         </h1>
         <div className="space-x-2">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800">
+          <Link to={`/admin/edit/${detailNews.data._id}`} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800">
             Edit
-          </button>
+          </Link>
         </div>
       </div>
 

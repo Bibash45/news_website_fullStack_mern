@@ -16,6 +16,8 @@ import {
 import { formatDate } from "../../utils/Dateformatter";
 import { BASE_URL } from "../../constants";
 import { useEffect, useState } from "react";
+import ShareButtons from "../../components/Home/Share";
+import { Helmet } from "react-helmet";
 
 const Article = () => {
   const { newsId } = useParams();
@@ -59,17 +61,47 @@ const Article = () => {
   const firstHalf = totalParagraph.slice(0, mid);
   const secondHalf = totalParagraph.slice(mid);
 
+  const shareUrl = "https://pabitraschool.onrender.com/"
+  // const shareUrl = `${window.location.origin}/news/${newsId}`;
+  const shareTitle = newsList.data.title;
+  
+  // const shareImage = `${BASE_URL}/${images[0]}`;
+  const shareImage = "https://img.setoparty.com/uploads/posts/482007148_1161387218853436_8128905589642537453_n-1740895054.jpg"
+
   return (
     <>
+      <Helmet>
+        <meta property="og:title" content={shareTitle} />
+        <meta
+          property="og:description"
+          content={
+            newsList?.data?.description ||
+            "A news article about current events."
+          }
+        />
+        <meta property="og:image" content={shareImage} />
+        <meta property="og:url" content={shareUrl} />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={shareTitle} />
+        <meta
+          name="twitter:description"
+          content={
+            newsList?.data?.description ||
+            "A news article about current events."
+          }
+        />
+        <meta name="twitter:image" content={shareImage} />
+      </Helmet>
       <Header />
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap items-center">
         <div className="w-full p-4 md:w-3/4 ">
-          <div className="title flex justify-center">
+          <div className="title flex justify-center items-center">
             <h1 className="text-2xl md:text-4xl font-bold mx-4 mt-4 pb-1 text-justify px-[65px]">
               {newsList.data.title}
             </h1>
           </div>
-          <div className="pl-4 author flex text-center justify-center">
+          <div className="pl-4 author flex text-center justify-center items-center flex-wrap">
             <div className="author-name-date flex gap-2">
               <div className="author-name text-base text-gray-600 pl-2 flex items-center gap-1">
                 <span>
@@ -77,7 +109,7 @@ const Article = () => {
                 </span>
                 <span className="underline">{newsList.data.author}</span>
               </div>
-              <div className="publish-date text-base text-gray-600 pl-2 flex items-centre justify-center">
+              <div className="publish-date text-base text-gray-600 pl-2 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -96,8 +128,15 @@ const Article = () => {
                   {formatDate(newsList.data.createdAt)}
                 </span>
               </div>
+
+              <ShareButtons
+                url={shareUrl}
+                title={shareTitle}
+                image={shareImage}
+              />
             </div>
           </div>
+
           <div className="content pt-6 pl-4">
             <div className="image-box h-[200px] md:h-[350px] lg:h-[500px] relative">
               {images.length > 0 && (
